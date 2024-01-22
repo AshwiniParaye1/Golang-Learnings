@@ -1,6 +1,6 @@
 go 1.21.6
 
 use (
-	./Day1
-	./Day2
+	./01hello
+	./02variables
 )
