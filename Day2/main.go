@@ -2,6 +2,11 @@ package main
 
 import "fmt"
 
+// loginToken := "dfghsdjgsd" // outside of the method walrus assignment is not allowed
+// fmt.Printf(loginToken)
+
+var PubVariableToken = "ghghghghhhhh" // public
+
 func main() {
 	fmt.Println("Hello its day 2")
 
@@ -33,4 +38,8 @@ func main() {
 	var anotherStrVar string
 	fmt.Println(anotherStrVar)
 	fmt.Printf("variable is of type: %T \n", anotherStrVar)
+
+	fmt.Println(PubVariableToken)
+	fmt.Printf("variable is of type: %T \n", PubVariableToken)
+
 }
