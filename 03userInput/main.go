@@ -18,6 +18,6 @@ func main() {
 	fmt.Println("thanks for rating ", input)
 	fmt.Printf("type of rating is = %T", input)
 
-	// _, err
-	// input, err
+	// _, err     - here we care about the error
+	// input, err - here we handle input as well as err just like try catch
 }
