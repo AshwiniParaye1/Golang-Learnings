@@ -3,4 +3,5 @@ go 1.21.6
 use (
 	./01hello
 	./02variables
+	./03userInput
 )
