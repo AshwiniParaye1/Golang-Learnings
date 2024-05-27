@@ -4,13 +4,15 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 	"strings"
 )
 
 func main() {
 	fmt.Println("Web Verb Request!")
 	// PerformGetRequest()
-	PerformPostJsonRequest()
+	// PerformPostJsonRequest()
+	PerformPostFormRequest()
 }
 
 func PerformGetRequest() {
@@ -46,6 +48,7 @@ func PerformGetRequest() {
 func PerformPostJsonRequest() {
 	const postUrl = "http://localhost:8000/post"
 
+	//dummy Json
 	requestBody := strings.NewReader(`
 	{
 		"courseName" : "Let's Go with Golang",
@@ -64,4 +67,29 @@ func PerformPostJsonRequest() {
 	content, _ := io.ReadAll(response.Body)
 
 	fmt.Println(string(content))
+}
+
+func PerformPostFormRequest() {
+	const postFormUrl = "http://localhost:8000/postform"
+
+	//formData
+
+	data := url.Values{}
+	data.Add("firstName", "Ashwini")
+	data.Add("lastName", "Paraye")
+	data.Add("email", "ashwiniparaye1@gmail.com")
+
+	response, err := http.PostForm(postFormUrl, data)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(response)
+
+	defer response.Body.Close()
+
+	content, _ := io.ReadAll(response.Body)
+
+	fmt.Println(string(content))
+
 }
