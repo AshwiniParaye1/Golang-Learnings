@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -34,7 +35,24 @@ func (c *Course) IsEmpty() bool {
 }
 
 func main() {
+	fmt.Println("API's")
 
+	r := mux.NewRouter()
+
+	//seeding of the data
+	courses = append(courses, Course{CourseId: "1", CourseName: "ReactJs", CoursePrice: 199, Author: &Author{Fullname: "Ashwini Paraye", Website: "ashwini.com"}})
+	courses = append(courses, Course{CourseId: "22", CourseName: "Golang", CoursePrice: 499, Author: &Author{Fullname: "Ashwini Paraye", Website: "go.dev"}})
+
+	//routing
+	r.HandleFunc("/", serveHome).Methods("GET")
+	r.HandleFunc("/courses", getAllCourses).Methods("GET")
+	r.HandleFunc("/course/{id}", getOneCourse).Methods("GET")
+	r.HandleFunc("/course", createOneCourse).Methods("POST")
+	r.HandleFunc("/course/{id}", updateOneCourse).Methods("PUT")
+	r.HandleFunc("/course/{id}", deleteOneCourse).Methods("DELETE")
+
+	//listen to a port
+	log.Fatal(http.ListenAndServe(":4000", r))
 }
 
 //controllers - file
@@ -42,7 +60,7 @@ func main() {
 // serve home route
 
 func serveHome(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("<h1>Welcome to API by LearnCodeOnline</h1>"))
+	w.Write([]byte("<h1>Welcome to API by Ashwini</h1>"))
 }
 
 func getAllCourses(w http.ResponseWriter, r *http.Request) {
@@ -65,7 +83,7 @@ func getOneCourse(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-	json.NewEncoder(w).Encode("No Course found with given id")
+	json.NewEncoder(w).Encode("404! No Course found with given id")
 	return
 }
 
@@ -85,6 +103,16 @@ func createOneCourse(w http.ResponseWriter, r *http.Request) {
 	if course.IsEmpty() {
 		json.NewEncoder(w).Encode("No data inside the JSON")
 		return
+	}
+
+	//TODO : check only if title as duplicate
+	//loop, title matches with course.courseName, JSON
+	// Check for duplicate course name
+	for _, existingCourse := range courses {
+		if existingCourse.CourseName == course.CourseName {
+			json.NewEncoder(w).Encode("Course with the same name exists!")
+			return
+		}
 	}
 
 	//generate unique id, string
