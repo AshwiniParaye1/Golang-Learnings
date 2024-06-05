@@ -118,5 +118,4 @@ func updateOneCourse(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//TODO : send a response when id is not found
-
 }
