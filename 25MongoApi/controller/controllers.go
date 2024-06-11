@@ -39,7 +39,7 @@ func init() {
 
 	fmt.Println("MongoDB connection success!")
 
-	connection := client.Database(dbName).Collection(colName)
+	collection = client.Database(dbName).Collection(colName)
 
 	//collection instance/reference
 	fmt.Println("Collection instance is ready!")
